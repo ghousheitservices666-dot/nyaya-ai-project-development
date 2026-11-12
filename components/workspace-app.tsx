@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { LiveConsultation } from './live-consultation'
+import { LiveDocumentAnalyzer } from './live-document-analyzer'
 import { useMemo, useState } from 'react'
 import { Activity, AlertCircle, ArrowDownToLine, ArrowLeft, ArrowRight, BadgeCheck, Bell, BookMarked, BookOpen, Check, ChevronDown, ChevronRight, CircleHelp, Clock3, FileSearch, FileText, Filter, Gavel, HeartHandshake, Home, Info, Landmark, LockKeyhole, Menu, MessageSquareText, Plus, Search, Send, ShieldAlert, ShieldCheck, SlidersHorizontal, Sparkles, Scale, Upload, X } from 'lucide-react'
 
@@ -42,13 +44,13 @@ export function WorkspaceApp({section}:{section:string}) {
     <div className="page-heading"><div><div className="eyebrow">{section==='dashboard'?'MONDAY, 12 MAY 2025':'NYAYA AI · DEMONSTRATION'}</div><h1>{section==='dashboard'?'Good morning, Ananya':title}</h1><p>{section==='dashboard'?'A clear place to begin understanding your legal questions.':'Explore this feature using labelled demonstration content.'}</p></div>{section==='dashboard'&&<Link className="button button-primary" href="/consultation"><Plus size={16}/> Start a consultation</Link>}</div>
     {notice&&<div className="notice" role="status"><Info size={16}/><span>{notice}</span><button aria-label="Dismiss" onClick={()=>setNotice('')}><X size={15}/></button></div>}
     {section==='dashboard'&&<Dashboard setNotice={setNotice}/>}
-    {section==='consultation'&&<Consultation query={query} setQuery={setQuery} sent={sent} sendQuestion={sendQuestion} setNotice={setNotice}/>}
+    {section==='consultation'&&<LiveConsultation/>}
     {section==='issue-detector'&&<IssueDetector/>}
     {section==='law-explorer'&&<div className="explorer-layout"><section className="surface explorer-main"><div className="surface-heading"><div><h2>Search the demo corpus</h2><p>A small sample set, not a complete collection of Indian law.</p></div><span className="label-pill"><BookOpen size={13}/> 3 sample records</span></div><label className="search-box"><Search size={17}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search acts, sections, topics…"/><kbd>⌘ K</kbd></label><div className="filter-row"><button className="filter-chip"><Filter size={14}/> All topics <ChevronDown size={13}/></button><button className="filter-chip">Central law <ChevronDown size={13}/></button><span className="results-count">{filtered.length} results</span></div><div className="legal-list">{filtered.map(x=><article className="legal-result" key={x.section}><div className="result-top"><span className="law-tag">{x.tag}</span><span className="verified-note"><Info size={13}/> Demo reference · verify current text</span></div><h3>{x.act}</h3><b className="section-title">{x.section} · {x.name}</b><p>{x.summary}</p><div className="result-bottom"><span><FileText size={14}/>{x.source}</span><a href={x.url} target="_blank" rel="noreferrer">Open India Code <ArrowRight size={13}/></a></div></article>)}</div></section><aside className="surface source-note"><span className="source-note-icon"><ShieldCheck size={19}/></span><h3>A deliberately small library</h3><p>These sample entries link to India Code. They are illustrative metadata and summaries, not a substitute for checking the authoritative, up-to-date legal text.</p><div className="source-note-row"><Check size={14}/> Links point to India Code</div><div className="source-note-row"><Check size={14}/> Corpus scope is disclosed</div><div className="source-note-row"><AlertCircle size={14}/> No comprehensive coverage claimed</div><Link href="/privacy">Read limitations <ArrowRight size={14}/></Link></aside></div>}
     {section==='prove-it'&&<ProveIt setNotice={setNotice}/>}
     {section==='risk-center'&&<RiskCenter/>}
     {section==='lawyer-assistance'&&<Lawyers/>}
-    {section==='document-analyzer'&&<DocumentAnalyzer file={file} setFile={setFile} setNotice={setNotice}/>}
+    {section==='document-analyzer'&&<LiveDocumentAnalyzer/>}
     {section==='challenge'&&<Challenge challenge={challenge} setChallenge={setChallenge} setNotice={setNotice}/>}
     {section==='privacy'&&<Privacy setNotice={setNotice}/>}
     {section==='my-cases'&&<MyCases/>}
